@@ -1,0 +1,26 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/books-backend/node_modules
+/books-frontend/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/books-backend/coverage
+/books-frontend/coverage
+
+# production
+/books-backend/coverage
+/books-frontend/build
+
+# misc
+# .DS_Store
+# .env.local
+# .env.development.local
+# .env.test.local
+# .env.production.local
+
+# npm-debug.log*
+# yarn-debug.log*
+# yarn-error.log*
