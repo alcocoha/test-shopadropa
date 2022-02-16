@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { createBook } from './slice';
+import { createBook, setCreateSuccess } from './slice';
 import { useSelector, useDispatch } from "react-redux";
+import { selectorCreateSuccess } from "./selectors";
 import "./styles.scss";
 
 export default function CreateBook() {
+	const createSuccess = useSelector(selectorCreateSuccess);
 	const dispatch = useDispatch();
 
   const [data, setData] = useState({
@@ -18,12 +20,23 @@ export default function CreateBook() {
     year: ""
   });
 
+	useEffect(() => {
+		if(createSuccess){
+			setTimeout(() => {
+				dispatch(setCreateSuccess(false));
+			}, 3000)
+		}
+	}, [createSuccess]);
+
 	const handleCreateBook = () => dispatch(createBook(data));
 
 	const handleChange = (e) => setData({...data, [e.target.name]: e.target.value });
 
 	return (
 		<>
+			{
+				createSuccess && <h2 className="books__created">Book created successfully</h2>
+			}
 			<Link to="/" className="books__link">
 				<Button variant="contained">List books</Button>
 			</Link>

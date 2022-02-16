@@ -1,10 +1,12 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import { getBooksFetch, getBooksSuccess, getBooksFinish, getDeleteBook, updateBooks, createBook } from "./slice";
+import { call, put, takeEvery } from "redux-saga/effects";
+import { getBooksFetch, getBooksSuccess, getBooksFinish, getDeleteBook, updateBooks, createBook, setCreateSuccess } from "./slice";
+
+const URL = process.env.REACT_APP_API_URL;
 
 function* setBooksSaga() {
 	yield console.log("dispara setBooksSaga");
 	try {
-		const books = yield call(() => fetch("http://localhost:4000/books"));
+		const books = yield call(() => fetch(`${URL}/books`));
 		const formattedBooks = yield books.json();
 		yield put(getBooksSuccess(formattedBooks));
 	} catch (error) {
@@ -16,7 +18,7 @@ function* setBooksSaga() {
 
 function* deleteBookSaga(action) {
 	try {
-		const books = yield call(() => fetch(`http://localhost:4000/books/${action.payload}`, { method: "DELETE" }));
+		const books = yield call(() => fetch(`${URL}/books/${action.payload}`, { method: "DELETE" }));
 		const formattedBooks = yield books.json();
 		if (formattedBooks.status === "ok") {
 			// success message
@@ -32,7 +34,7 @@ function* deleteBookSaga(action) {
 function* updateBooksSaga(action) {
   const { payload } = action;
 	try {
-		const books = yield call(() => fetch(`http://localhost:4000/books/${payload.id}`,{
+		const books = yield call(() => fetch(`${URL}/books/${payload.id}`,{
       method: "PATCH",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(payload)
@@ -52,7 +54,7 @@ function* updateBooksSaga(action) {
 function* createBookSaga(action) {
 	const { payload } = action;
 	try {
-		const books = yield call(() => fetch(`http://localhost:4000/books/`,{
+		const books = yield call(() => fetch(`${URL}/books/`,{
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(payload)
@@ -60,6 +62,7 @@ function* createBookSaga(action) {
 		const formattedBooks = yield books.json();
 		if (formattedBooks.status === "ok") {
 			// success message
+			yield put(setCreateSuccess(true))
 			yield call(setBooksSaga);
 		}
 	} catch (error) {

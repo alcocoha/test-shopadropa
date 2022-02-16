@@ -2,6 +2,13 @@
   &__link{
     text-decoration:none;
   }
+  &__created{
+    background-color: #10aa10;
+    font-size: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+  }
 }
 
 .form {

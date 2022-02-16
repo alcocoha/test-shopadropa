@@ -4,7 +4,8 @@ export const bookSlice = createSlice({
   name: 'books',
   initialState: {
     isLoading: false,
-    books: []
+    books: [],
+    createSuccess: false
   },
   reducers: {
     getBooksFetch: (state) => {
@@ -26,10 +27,13 @@ export const bookSlice = createSlice({
     },
     createBook: (state) => {
       return state;
+    },
+    setCreateSuccess: (state, actions) => {
+      state.createSuccess = actions.payload;
     }
   }
 });
 
-export const { getBooksFetch, getBooksSuccess, getBooksFinish, getDeleteBook, updateBooks, createBook } = bookSlice.actions;
+export const { getBooksFetch, getBooksSuccess, getBooksFinish, getDeleteBook, updateBooks, createBook, setCreateSuccess } = bookSlice.actions;
 export const {initialState} = bookSlice;
 export default bookSlice.reducer;
