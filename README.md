@@ -36,3 +36,4 @@ In the same directory, you can run:
 
 ### `npm start`
 
+and hoala!, this should run the app
